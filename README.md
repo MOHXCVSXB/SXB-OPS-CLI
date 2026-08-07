@@ -1,26 +1,42 @@
-SXB OPS CENTER
+# SXB OPS CENTER
 
-Terminal-based device operations and management tool
+> Terminal-based device operations and management tool
 
-SXB OPS CENTER is a command-line application developed as an academic cybersecurity/software engineering project.
-
-The project provides a terminal interface for communicating with an authorized device through a backend server and managing supported operations from a centralized console.
-
-«Important: This project is intended for authorized testing, academic research, laboratory environments, and devices for which the operator has explicit permission.»
+**Version:** `v1.0.0`  
+**Edition:** Terminal Edition  
+**License:** Academic / Authorized Testing
 
 ---
 
-## Quick Start
+## NAME
 
-### Linux / Termux
+**sxbops** — terminal-based device operations and management console.
 
-git clone https://github.com/MOHXCVSXB/SXB-OPS-CLI.git
-cd SXB-OPS-CLI
-bash install.sh
-sxbops
+---
 
+## DESCRIPTION
 
-Features
+**SXB OPS CENTER** is a command-line application developed as an academic
+cybersecurity and software engineering project.
+
+The application provides a terminal-based operations console for communicating
+with authorized test devices through a backend server and managing supported
+operations from a centralized interface.
+
+SXB OPS CENTER is designed for:
+
+- Academic research
+- Cybersecurity laboratories
+- Software engineering projects
+- Authorized device testing
+- Controlled testing environments
+
+> **IMPORTANT:** Use this software only on devices, accounts, servers, and
+> environments that you own or have explicit permission to test.
+
+---
+
+## FEATURES
 
 - Device management
 - SMS command interface
@@ -28,223 +44,477 @@ Features
 - Call commands
 - Browser URL commands
 - Contacts logs
-- Notifications
+- Notification interface
 - Application management interface
 - Wallpaper management interface
 - Lock-screen interface
 - Session management
 - Supabase backend connectivity
 - Command status tracking
-- Activity logs
+- Activity logging
 - TXT data exports
-- Linux and Termux support
+- Linux support
+- Termux / Android support
+- Automatic architecture detection
+- Automatic environment detection
 
 ---
 
-Supported Platforms
+## SUPPORTED PLATFORMS
 
-Linux
+### Linux
 
 Supported architectures:
 
-- "x86_64 / amd64"
-- "aarch64 / arm64"
+- `x86_64 / amd64`
+- `aarch64 / arm64`
 
-Termux
+### Android / Termux
 
 Supported architecture:
 
-- "aarch64 / arm64"
+- `aarch64 / arm64`
+
+The installer automatically detects the current environment and selects the
+appropriate binary.
+
+No manual binary selection is required.
 
 ---
 
-Installation
+# INSTALLATION
 
-The project includes an automatic installer.
+## Linux
 
-Make the installer executable:
+### Requirements
 
-chmod +x install.sh
+- Linux
+- Git
+- Supported architecture
+- Internet connection
 
-Run:
+Clone the repository:
 
-./install.sh
+```bash
+git clone https://github.com/MOHXCVSXB/SXB-OPS-CLI.git
+```
 
-If the project is located inside Android shared storage and direct execution is restricted by Termux, use:
+Enter the project directory:
 
+```bash
+cd SXB-OPS-CLI
+```
+
+Run the installer:
+
+```bash
 bash install.sh
+```
 
-The installer automatically detects the environment and architecture.
+After installation:
 
-Termux
-
-The application is installed to:
-
-$PREFIX/bin/sxbops
-
-Linux
-
-The application is installed to:
-
-/usr/local/bin/sxbops
-
-After installation, run:
-
+```bash
 sxbops
+```
+
+The Linux executable is installed to:
+
+```text
+/usr/local/bin/sxbops
+```
 
 ---
 
-Project Structure
+## Android / Termux
 
+### Requirements
+
+- Android device
+- Termux
+- ARM64 / AArch64 device
+- Internet connection
+
+Install Git:
+
+```bash
+pkg update
+pkg install git
+```
+
+Clone the repository:
+
+```bash
+git clone https://github.com/MOHXCVSXB/SXB-OPS-CLI.git
+```
+
+Enter the project directory:
+
+```bash
+cd SXB-OPS-CLI
+```
+
+Run the installer:
+
+```bash
+bash install.sh
+```
+
+After installation:
+
+```bash
+sxbops
+```
+
+The Termux executable is installed to:
+
+```text
+$PREFIX/bin/sxbops
+```
+
+The program can then be started from any directory:
+
+```bash
+sxbops
+```
+
+---
+
+# QUICK START
+
+For Linux:
+
+```bash
+git clone https://github.com/MOHXCVSXB/SXB-OPS-CLI.git
+cd SXB-OPS-CLI
+bash install.sh
+sxbops
+```
+
+For Android / Termux:
+
+```bash
+pkg install git
+git clone https://github.com/MOHXCVSXB/SXB-OPS-CLI.git
+cd SXB-OPS-CLI
+bash install.sh
+sxbops
+```
+
+---
+
+# USAGE
+
+After starting the application:
+
+```bash
+sxbops
+```
+
+The terminal interface provides the main operations dashboard.
+
+Example:
+
+```text
+===================================
+       SXB OPS CENTER
+===================================
+
+[1] Devices
+[2] SMS
+[3] Calls
+[4] Notifications
+[5] Browser
+[6] Applications
+[7] Wallpaper
+[8] Lock Screen
+[9] Settings
+
+[L] Logout
+[0] Exit
+```
+
+Select an operation by entering its corresponding number.
+
+Example:
+
+```text
+Select > 1
+```
+
+---
+
+# INSTALLER
+
+The project includes an automatic installer:
+
+```text
+install.sh
+```
+
+The installer detects:
+
+1. Operating environment
+2. CPU architecture
+3. Available binary
+4. Installation location
+
+Supported environments:
+
+```text
+Linux AMD64
+Linux ARM64
+Termux ARM64
+```
+
+The user does not need to manually select a binary.
+
+---
+
+# INSTALLED FILE
+
+After installation, the executable is available as:
+
+```bash
+sxbops
+```
+
+You can verify the installation with:
+
+```bash
+which sxbops
+```
+
+On Termux, the expected location is similar to:
+
+```text
+/data/data/com.termux/files/usr/bin/sxbops
+```
+
+On Linux, the expected location is:
+
+```text
+/usr/local/bin/sxbops
+```
+
+---
+
+# PROJECT RELEASE STRUCTURE
+
+The public release contains the following files:
+
+```text
 SXB-OPS-CLI/
 │
-├── main.go
-├── dashboard.go
-├── auth.go
-├── session.go
-├── supabase.go
-├── devices.go
-├── sms.go
-├── contacts.go
-├── call.go
-├── browser.go
-├── apps.go
-├── wallpaper.go
-├── warning.go
-├── logs.go
-│
-├── go.mod
+├── README.md
 ├── install.sh
 │
 ├── sxbops
 ├── sxbops-linux-amd64
 └── sxbops-linux-arm64
+```
+
+### Binary files
+
+| File | Platform |
+|---|---|
+| `sxbops` | Termux / Android ARM64 |
+| `sxbops-linux-amd64` | Linux x86_64 / AMD64 |
+| `sxbops-linux-arm64` | Linux ARM64 / AArch64 |
 
 ---
 
-Backend
+# BACKEND
 
-The application communicates with a Supabase backend.
+SXB OPS CENTER communicates with a Supabase backend.
 
-The backend is responsible for storing device information, commands, logs, and related project data.
+The backend is responsible for storing project data such as:
 
-The database structure used by the project includes resources such as:
-
+```text
 devices
 sms_logs
 contacts_logs
+```
 
-Command status information is tracked through fields such as:
+Command status information includes fields such as:
 
+```text
 last_command_id
 last_command_status
 last_command_time
+```
+
+The backend provides the communication layer between the terminal console
+and authorized test devices.
 
 ---
 
-Logs and Exports
+# LOGS AND EXPORTS
 
-The application can create local TXT exports for collected project data.
+The application supports project-related logging and TXT exports.
 
-Exported information can include:
+Supported log information may include:
 
 - SMS logs
 - Contact logs
 - Call command records
 - Browser command records
 
-The exported files are designed to remain simple and readable using standard text editors.
+TXT files are intentionally kept in a simple text-based format so they can be
+opened using standard text editors and terminal utilities.
+
+Example:
+
+```bash
+cat filename.txt
+```
 
 ---
 
-Activity Logging
+# ACTIVITY LOGGING
 
-The application records selected operations in the project log.
+The application records selected operations relevant to the project.
 
 Examples include:
 
+```text
 SMS command
 Call command
 Browser command
 SMS export
 Contacts export
+```
 
-The logging system is intentionally limited to relevant operations rather than recording every terminal interaction.
+The logging system focuses on relevant project operations rather than
+recording every terminal interaction.
 
 ---
 
-Security and Authorization
+# SECURITY AND AUTHORIZATION
 
-SXB OPS CENTER must only be used against devices, accounts, servers, and environments where the operator has explicit authorization.
+SXB OPS CENTER is an academic and authorized-testing project.
 
-Do not use the project to access, monitor, modify, or interact with devices belonging to other people without permission.
-
-For academic testing, use:
+Only use the software on:
 
 - Your own devices
-- University laboratory devices
 - Dedicated test devices
-- Authorized virtual/laboratory environments
+- University laboratory devices
+- Authorized virtual environments
+- Systems for which you have explicit permission
+
+Do not use the software to access, monitor, modify, or interact with devices
+or systems belonging to other people without authorization.
 
 ---
 
-Academic Use
+# SAFE TESTING
 
-This project was developed for educational purposes involving concepts such as:
+For testing the project in a controlled environment, use a dedicated test
+device or an authorized laboratory environment.
 
-- Software engineering
+If you would like to arrange an authorized demonstration or testing session,
+contact the developer before testing.
+
+---
+
+# ACADEMIC PURPOSE
+
+This project demonstrates concepts related to:
+
 - Cybersecurity
+- Software engineering
+- Go application development
 - Client/server communication
-- API integration
+- REST API integration
 - Database management
 - Terminal application development
+- Linux deployment
+- Android / Termux deployment
 - Logging and auditing
-- Linux application deployment
-
-The project should be evaluated within the authorized environment provided for the academic project.
+- Cross-platform binary distribution
 
 ---
 
-Testing
+# TESTING CHECKLIST
 
-Before deployment, verify:
+Before a release is considered stable, verify:
 
-1. Backend connectivity
-2. Authentication
-3. Device selection
-4. SMS functionality
-5. Call functionality
-6. Browser functionality
-7. Contacts retrieval
-8. Logs
-9. TXT exports
-10. Linux installation
-11. Termux installation
-
----
-
-Developer Contact
-
-For questions, technical communication, or requests to test the project in a safe and authorized environment, please contact the developer through Instagram:
-
-"Contact the developer on Instagram" (https://reference-url-citation.invalid/0)
-
-If you would like to test the tool, please contact the developer first and arrange an explicitly authorized testing environment.
+- [x] Backend connectivity
+- [x] Authentication
+- [x] Device selection
+- [x] SMS functionality
+- [x] Call functionality
+- [x] Browser functionality
+- [x] Contacts retrieval
+- [x] Logs
+- [x] TXT exports
+- [x] Linux installation
+- [x] Linux AMD64 binary
+- [x] Linux ARM64 binary
+- [x] Termux ARM64 installation
+- [x] Automatic architecture detection
+- [x] Git repository installation
 
 ---
 
-Disclaimer
+# UNINSTALLATION
+
+### Termux
+
+Remove the installed executable:
+
+```bash
+rm "$PREFIX/bin/sxbops"
+```
+
+### Linux
+
+Remove the installed executable:
+
+```bash
+sudo rm /usr/local/bin/sxbops
+```
+
+---
+
+# DEVELOPER
+
+For technical communication, academic questions, or requests to test the
+project in a safe and authorized environment:
+
+**Instagram**
+
+https://www.instagram.com/x_sxb_x1/
+
+Please contact the developer before requesting or arranging an authorized
+testing session.
+
+---
+
+# DISCLAIMER
 
 SXB OPS CENTER is provided as an academic and research project.
 
-The developer does not authorize the use of this software for unauthorized access, surveillance, data collection, or interference with systems or devices belonging to others.
+The developer does not authorize the use of this software for unauthorized
+access, surveillance, data collection, or interference with systems or
+devices belonging to others.
 
-The user is responsible for obtaining the necessary authorization before testing or deploying the software.
+The person using the software is responsible for obtaining the necessary
+authorization before testing or deploying it.
 
 ---
 
-Version
+# VERSION
 
+```text
 SXB OPS CENTER
 Version: v1.0.0
 Terminal Edition
+```
+
+---
+
+## REPOSITORY
+
+Official repository:
+
+https://github.com/MOHXCVSXB/SXB-OPS-CLI
