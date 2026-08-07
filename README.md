@@ -1,15 +1,15 @@
 
 # SXB OPS CENTER
 
-<p align="center">
-  <img src="https://cdn.phototourl.com/free/2026-08-07-235c8b77-7e15-420b-b590-5a6394c4d95d.png" width="180">
-</p>
+███████╗██╗  ██╗██████╗
+██╔════╝╚██╗██╔╝██╔══██╗
+███████╗ ╚███╔╝ ██████╔╝
+╚════██║ ██╔██╗ ██╔══██╗
+███████║██╔╝ ██╗██████╔╝
+╚══════╝╚═╝  ╚═╝╚═════╝
 
-<p align="center">
-  Terminal-based device operations and management tool
-</p>
-
-> Terminal-based device operations and management tool
+SXB OPS CENTER
+Terminal Edition
 
 **Version:** `v1.0.0`  
 **Edition:** Terminal Edition  
