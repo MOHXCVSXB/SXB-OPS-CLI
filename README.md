@@ -10,6 +10,16 @@ The project provides a terminal interface for communicating with an authorized d
 
 ---
 
+## Quick Start
+
+### Linux / Termux
+
+git clone https://github.com/MOHXCVSXB/SXB-OPS-CLI.git
+cd SXB-OPS-CLI
+bash install.sh
+sxbops
+
+
 Features
 
 - Device management
