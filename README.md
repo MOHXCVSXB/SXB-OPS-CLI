@@ -10,6 +10,8 @@ SXB OPS CENTER provides a command-line interface (CLI) that communicates with an
 
 ---
 
+> **Security status (hardened branch):** The precompiled binaries and installer have been removed. This repository currently does not publish runnable artifacts because the original release did not include auditable source code and embedded backend credentials were identified. Do not install or run old binaries copied from previous commits. See [SECURITY.md](SECURITY.md).
+
 ## Table of Contents
 
 - [About the Project](#about-the-project)
@@ -123,290 +125,51 @@ Supported architecture:
 
 ## Technology Stack
 
-| Component            | Technology                                                     |
-| -------------------- | -------------------------------------------------------------- |
-| Language             | Go (`go 1.19`, module `sxbops`)                                |
-| Dependencies         | Go standard library only (no external Go modules)              |
-| Backend / Database   | Supabase (PostgreSQL REST API)                                  |
-| External storage     | Cloudinary (media file transfers)                               |
-| Installation         | Bash installer script (`install.sh`)                            |
-| Distribution         | Precompiled binaries for Linux (`sxbops-linux-amd64`, `sxbops-linux-arm64`) and Termux (`sxbops`) |
-
----
-
+The historical client was a Go CLI using the standard library, Supabase, and Cloudinary. The source code and runnable artifacts are not currently published in this hardened branch. This is intentional: no opaque binary or installer should be trusted without auditable source, reproducible build instructions, and rotated backend credentials.
 ## Requirements
 
-- **Operating system:** Linux (`x86_64`/`amd64` or `aarch64`/`arm64`) or Termux on Android (`aarch64`/`arm64`)
-- **Backend:** A running Supabase project configured with the schema used by the project (see [Backend & Data](#backend--data))
-- **Access token:** A valid, active access token that exists in the backend `tokens` table
-- **Network access:** Outbound HTTPS access to the Supabase project and, if used, to Cloudinary
-- **To build from source:** Go `1.19` or newer installed on the machine
-- **Permissions:** Write access to the installation directory or `sudo` for system-wide installation
-
-> No preconfigured public backend is provided. The project must be connected to the authorized backend provisioned for the academic project.
-
----
-
+There are no runtime requirements for the hardened branch because it does not publish a runnable client. A future implementation must document its exact Go version, dependencies, backend schema, configuration variables, authorization model, tests, and reproducible build process before release.
 ## Installation
 
-The project includes an automatic installer that detects the environment and architecture.
+Installation is intentionally disabled in this hardened branch. The previous installer copied opaque precompiled binaries into Termux or `/usr/local/bin`; those artifacts were removed because the repository did not contain the source needed to audit or reproduce them.
 
-Make the installer executable:
-
-```bash
-chmod +x install.sh
-```
-
-Run:
-
-```bash
-./install.sh
-```
-
-If the project is located inside Android shared storage and direct execution is restricted by Termux, use:
-
-```bash
-bash install.sh
-```
-
-### Installation paths
-
-- **Termux** — the application is installed to:
-
-  ```
-  $PREFIX/bin/sxbops
-  ```
-
-- **Linux** — the application is installed to:
-
-  ```
-  /usr/local/bin/sxbops
-  ```
-
-### Building from source (optional)
-
-If you have Go `1.19+` installed, you can build the binary yourself:
-
-```bash
-go build -o sxbops .
-```
-
----
+Do not download or execute binaries from older commits. A future release must be built from reviewed source, must receive configuration through environment variables or a secret manager, and must publish a reproducible build procedure and checksums.
 
 ## Usage
 
-After installation, run:
-
-```bash
-sxbops
-```
-
-Workflow:
-
-1. Press `ENTER` to skip the banner.
-2. If a valid local session exists, you will go straight to the dashboard. Otherwise, log in with your access token.
-3. On the dashboard, use the numbered menu:
-
-   ```
-   [1] Devices
-   [2] SMS
-   [3] Calls
-   [4] Notifications
-   [5] Browser
-   [6] Applications
-   [7] Contacts
-   [8] Wallpaper
-   [9] upload
-   [L] Logout
-   [0] Exit
-   ```
-
-4. Select a device from the `Devices` menu before using any device-specific operation.
-5. `L` logs out (remove the local session); `0` exits the application.
-
----
+There is currently no supported runnable release. The project must not be connected to real devices or production data until an auditable client is restored and the security requirements in [SECURITY.md](SECURITY.md) are met.
 
 ## Project Structure
 
+The hardened branch contains documentation and security policy only:
+
 ```
 SXB-OPS-CLI/
-│
-├── main.go        Entry point, banner, session check, login routing
-├── dashboard.go   Main dashboard menu and navigation
-├── auth.go        Access-token login and token validation
-├── session.go     Local session persistence (.session)
-├── supabase.go    Backend connectivity, constants, device/SMS/contacts data access, exports
-├── devices.go     Device listing and selection
-├── sms.go         SMS menu: view, send, export
-├── contacts.go    Contacts menu: list, search, export
-├── call.go        Make-call command
-├── browser.go     Open-URL command
-├── apps.go        Open-application command (incl. custom package)
-├── wallpaper.go   Set-wallpaper command
-├── warning.go     Danger-alert command
-├── logs.go        Local activity logging (SXB_EXPORTS/logs.txt)
-├── upload.go      Media upload commands, backup listing, Cloudinary transfer
-│
-├── go.mod         Go module definition (module `sxbops`, Go 1.19)
-├── install.sh     Automatic environment-aware installer
-│
-├── sxbops                Termux (aarch64) binary
-├── sxbops-linux-amd64    Linux x86_64 binary
-└── sxbops-linux-arm64    Linux aarch64 binary
+├── README.md       Project status, scope, and security limitations
+├── SECURITY.md     Vulnerability reporting and security requirements
+└── .gitignore      Prevents local data, credentials, and opaque binaries from being committed
 ```
 
-Runtime artifacts created by the application when used (not part of the source):
-
-- `.session` — stores the current access token locally
-- `cloudinary_config.json` — stores Cloudinary settings (Cloud Name, Upload Preset)
-- `SXB_EXPORTS/` — contains TXT exports and the local activity log (`logs.txt`)
-
----
-
+The mobile device agent remains intentionally absent. It must not be added to this public repository.
 ## Backend & Data
 
-The application communicates with a Supabase backend, which stores device information, commands, logs, and related project data.
-
-The database structure used by the project includes resources such as:
-
-- `tokens` — access tokens used for authentication
-- `devices` — devices linked to each token/operator
-- `sms_logs` — SMS records for devices
-- `contacts_logs` — contact records for devices
-- `backups` — uploaded media file records for devices
-
-Command status information is tracked through fields on device rows such as:
-
-- `last_command_id`
-- `last_command_status`
-- `last_command_time`
-
-Device row fields used to carry commands include (among others): `send_sms_number`, `send_sms_message`, `make_call`, `open_url`, `open_app`, `wallpaper_url`, `show_warning`, and upload-related fields (`upload_media`, `target_images`, `target_videos`) for the media upload flow.
-
----
-
-## Logs & Exports
-
-**TXT exports.** The application can create local plain-text exports of collected data:
-
-- SMS logs (`<DeviceName>_SMS.txt`)
-- Contact logs (`<DeviceName>_Contacts.txt`)
-
-Exported files are saved under `SXB_EXPORTS/` and are kept simple and readable using standard text editors.
-
-**Activity logging.** The application records selected operations in `SXB_EXPORTS/logs.txt`, including:
-
-- SMS command sent
-- Call command sent
-- Browser command sent
-- SMS export
-- Contacts export
-- Upload command sent
-- Cloudinary transfers
-
-The logging system is intentionally limited to relevant operations rather than recording every terminal interaction.
-
----
-
-## Safe Usage Examples
-
-The following are examples of safe, authorized usage suitable for a demonstration within the academic environment. All operations below assume:
-
-- You are operating the console against **your own device**, a **university laboratory device**, or a **device you are explicitly authorized to test**.
-- You hold a valid access token issued by the academic backend.
-
-**1. Login and connectivity check**
-
-```bash
-sxbops
-# Token : <your issued token>
-# Dashboard shows: Database: Online
-```
-
-**2. List and select an authorized device**
-
-```
-[1] Devices
-Choose a device number > 1
-Selected Device: laptop-01
-```
-
-**3. View and export SMS logs from the selected device**
-
-```
-[2] SMS
-[1] View SMS        → displays received SMS records
-[3] Export SMS      → saves <DeviceName>_SMS.txt
-```
-
-**4. View, search, and export contacts**
-
-```
-[7] Contacts
-[2] Search          → filter by name or number
-[3] Export Contacts → saves <DeviceName>_Contacts.txt
-```
-
-> These examples are limited to read-only log operations, which keep the demonstration suitable for a controlled academic setting. Any command that mutates a device (calls, SMS sending, wallpaper changes, etc.) must only be performed on an explicitly authorized test device.
-
----
-
-## Security & Ethics
-
-SXB OPS CENTER **must only** be used against devices, accounts, servers, and environments where the operator has explicit authorization.
-
-- Do **not** use the project to access, monitor, modify, or interact with devices belonging to other people without permission.
-- Do **not** use the project to send unsolicited messages, make unauthorized calls, read private communications, or collect personal data without consent.
-- The project can issue commands that alter device behavior and request the exfiltration/transfer of media and communication logs. Misuse of these capabilities is likely to violate laws related to unauthorized access, surveillance, and data protection (e.g., privacy and computer-misuse regulations).
-
-For academic testing, use only:
-
-- Your own devices
-- University laboratory devices
-- Dedicated test devices
-- Authorized virtual / laboratory environments
-
-**Implementation caveats to be aware of:**
-
-- Backend credentials are currently **hard-coded in the client source** (`supabase.go`). Anyone with access to the binary or source can read these values. For any real deployment, credentials must be moved to environment variables or a secure configuration store, and the backend keys must be rotated.
-- The local `.session` file stores the access token in plain text (permissions `0600`).
-- Local exports and the activity log are stored in plain text without encryption.
-
----
-
+No backend connection is configured or supported in this hardened branch. The historical documentation described tables for devices, commands, SMS, contacts, and backups, but no client or device agent is published here. Do not connect this branch to real data.
 ## Academic Disclaimer
 
-SXB OPS CENTER is provided **strictly as an academic and research project**. It is made available for educational purposes, cybersecurity coursework, research, and laboratory evaluation only.
+This project is for authorized academic security research only. The public hardened branch intentionally provides no runnable remote-control client and no device data-collection agent. Do not test against any device, account, server, or network without explicit, verifiable authorization from the owner.
 
-The developer:
-
-- Does **not** encourage, authorize, or endorse the use of this software for unauthorized access, surveillance, data collection, harassment, or any interference with systems, networks, or devices belonging to others.
-- Provides this software "as is", without any warranty of any kind, express or implied, including but not limited to implied warranties of merchantability or fitness for a particular purpose.
-
-The **user**:
-
-- Is fully responsible for ensuring that their use of this software is lawful, authorized, and complies with all applicable laws, regulations, institutional policies, and the terms of service of any service or platform involved (including any backend, carrier, and cloud provider used).
-- Must obtain the explicit and verifiable authorization of the device owner or operator before testing, deploying, or otherwise using this software against any device.
-
-By using this project you acknowledge that you understand these terms and accept full responsibility for your own use. The author(s) accept no liability for any misuse, damage, or legal consequences arising from the use of this project.
-
----
-
+For vulnerability reports and the requirements for any future implementation, see [SECURITY.md](SECURITY.md).
 ## Limitations
 
-The following limitations are present in the current implementation:
-
-- **No standalone operation.** The CLI depends on a Supabase backend provisioned with the expected schema (`tokens`, `devices`, `sms_logs`, `contacts_logs`, `backups`). Without the authorized backend, the application has no data to operate on.
-- **Device agent not included.** The component that executes commands on the target device is a separate system and is not part of this repository.
-- **Embedded credentials.** The Supabase URL and API key are hard-coded in `supabase.go`. This is acceptable for a lab/academic setting but is a security risk for real deployments.
-- **No automated tests or CI.** The project does not currently include automated test suites or a continuous-integration pipeline.
-- **Limited platform support.** Precompiled binaries exist only for Linux `amd64`/`arm64` and Termux `aarch64`. Other platforms require building from source.
-- **Exports reflect backend data only.** TXT exports contain only records already present in the backend; they are not encrypted.
-- **No internationalization.** The terminal interface is provided in English with some code comments in Arabic.
-
----
-
+- There is no supported runnable release in this branch.
+- The historical release did not include auditable source code.
+- The historical binaries contained backend connection details and credentials; old binaries must be treated as compromised and must not be used.
+- The device agent is not included, by design, to reduce the risk of unauthorized collection and remote control.
+- Existing backend credentials, tokens, and any previously issued access must be rotated by the backend owner before any future deployment.
+- No claim is made that the historical client is safe merely because it was described as academic software.
 ## Future Improvements
+
+Security hardening is now a prerequisite, not an optional future feature. The project must first restore auditable source code, remove all embedded credentials, avoid plaintext token persistence, add tests and CI, and publish reproducible builds.
 
 Suggested (future) improvements, none of which are implemented yet:
 
