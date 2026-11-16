@@ -1,0 +1,21 @@
+# Local session and exported data
+.session
+SXB_EXPORTS/
+*.session
+*.log
+
+# Credentials and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*credentials*
+*secrets*
+
+# Build outputs and opaque release binaries
+/bin/
+/dist/
+sxbops
+sxbops-linux-amd64
+sxbops-linux-arm64
